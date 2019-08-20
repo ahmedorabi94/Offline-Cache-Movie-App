@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="movie"
+                type="com.example.movieapp.data.Result"/>
+
+
+    </data>
+
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_item"
+            android:layout_width="171dp"
+            android:layout_height="270dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="2dp"
+            android:orientation="vertical"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardCornerRadius="2dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:id="@+id/file_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{movie.poster_path}"
+            />
+
+            <RatingBar
+                    android:id="@+id/ratingbar"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    app:voteAverage="@{movie.vote_average}"
+                    android:numStars="5"
+            />
+
+            <TextView
+                    android:id="@+id/title_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:ellipsize="end"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="2dp"
+                    android:maxLines="1"
+                    android:text="@{movie.title}"
+                    android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
+
