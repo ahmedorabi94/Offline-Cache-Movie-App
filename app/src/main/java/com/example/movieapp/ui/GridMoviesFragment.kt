@@ -16,11 +16,7 @@ import com.example.movieapp.viewmodels.MoviesViewModel
 
 class GridMoviesFragment : Fragment() {
 
-
-    private val viewModel: MoviesViewModel by lazy {
-        ViewModelProviders.of(this, MoviesViewModel.Factory(activity!!.application)).get(MoviesViewModel::class.java)
-
-    }
+    private lateinit var viewModel: MoviesViewModel
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,8 +25,12 @@ class GridMoviesFragment : Fragment() {
         val binding: FragmentGridMoviesBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_grid_movies, container, false)
 
+        viewModel = ViewModelProviders.of(this, MoviesViewModel.Factory(activity!!.application))
+            .get(MoviesViewModel::class.java)
+
+
         val adapter = MovieAdapter()
-        val itemDecoration = GridItemDecoration(8,12)
+        val itemDecoration = GridItemDecoration(8, 12)
         binding.recyclerView.addItemDecoration(itemDecoration)
         binding.recyclerView.adapter = adapter
 

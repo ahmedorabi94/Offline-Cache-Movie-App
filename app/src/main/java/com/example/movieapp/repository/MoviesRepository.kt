@@ -15,6 +15,7 @@ class MoviesRepository(private val movieDb: MovieDatabase) {
 
 
     suspend fun getMovies() {
+
         withContext(Dispatchers.IO) {
             val movies = ApiService.service.getNowPlaying("").await()
             movieDb.movieDao.insertAllMovies(movies.results)
