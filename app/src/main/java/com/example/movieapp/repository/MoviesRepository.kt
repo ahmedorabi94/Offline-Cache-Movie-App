@@ -1,12 +1,27 @@
 package com.example.movieapp.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.example.movieapp.api.ApiService
+import com.example.movieapp.api.MovieApiInterface
 import com.example.movieapp.db.MovieDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MoviesRepository(private val movieDb: MovieDatabase) {
+class MoviesRepository @Inject constructor(
+    private val movieDb: MovieDatabase,
+    private val apiService: MovieApiInterface
+) {
+
+    enum class MoviesStatus {
+        SUCCESS, LOADING, ERROR
+    }
+
+
+    private val _status = MutableLiveData<MoviesStatus>()
+    val status: LiveData<MoviesStatus>
+        get() = _status
 
 
     val movies = Transformations.switchMap(movieDb.movieDao.getMovies()) {
@@ -16,11 +31,14 @@ class MoviesRepository(private val movieDb: MovieDatabase) {
 
     suspend fun getMovies() {
 
+        _status.value = MoviesStatus.LOADING
         withContext(Dispatchers.IO) {
-            val movies = ApiService.service.getNowPlaying("").await()
+            val movies = apiService.getNowPlaying("").await()
             movieDb.movieDao.insertAllMovies(movies.results)
 
         }
+        _status.value = MoviesStatus.SUCCESS
+
     }
 
 
