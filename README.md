@@ -5,6 +5,7 @@
  - Data Binding
  - Live Data 
  - ViewModels
+ - Kotlin Coroutines
  - Room db
  - Retrofit
  - Glide
